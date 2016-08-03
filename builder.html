@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Builder</title>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	<link rel="stylesheet" href="./mtg-font/css/magic-font.css">
+	<link rel="stylesheet" href="./beleren/beleren.css">
+	<style>
+		body {box-sizing: border-box; font-size: 18pt;}
+		section {height: 100vh;}
+		form {height: 100%;}
+		textarea {height: calc(100% - 1.414rem); width: calc(100% - 1.414rem) !important; margin: .5rem; font-family: monospace;}
+		#output {font-family: monospace;}
+		#output > * {margin: 1rem auto;}
+		#cards-container td, #cards-container th {font-size: 1.2rem; padding: 0 1em;}
+		#cards .name {font-family: Beleren;}
+	</style>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+	<script src="./js/builder.js"></script>
+</head>
+<body>
+	<main class="pure-g">
+		<section class="pure-u-3-8">
+			<form class="pure-form">
+				<textarea class="pure-input-1" id="input"></textarea>
+			</form>
+		</section>
+		<section class="pure-u-5-8" id="output">
+			<table id="cards-container" class="pure-table">
+				<!--
+				<thead>
+					<th class="count">Count</th>
+					<th class="manaCost">ManaCost</th>
+					<th class="name">Name</th>
+					<th class="type">Type</th>
+				</thead>
+				-->
+				<tbody id="cards">
+				</tbody>
+			</table>
+
+			<div>
+				<span id="symbols">
+					<i class="mi mi-mana mi-u"></i><span id="symbols-u">0</span>
+					<i class="mi mi-mana mi-w"></i><span id="symbols-w">0</span>
+					<i class="mi mi-mana mi-r"></i><span id="symbols-r">0</span>
+					<i class="mi mi-mana mi-g"></i><span id="symbols-g">0</span>
+					<i class="mi mi-mana mi-b"></i><span id="symbols-b">0</span>
+				</span>
+			</div>
+
+			<div id="curve" style="height: 30%;">
+			</div>
+
+			<div>
+				<span id="types">
+					<i class="mi mi-land"></i><span id="types-land">0</span>
+					<i class="mi mi-creature"></i><span id="types-creature">0</span>
+					<i class="mi mi-artifact"></i><span id="types-artifact">0</span>
+					<i class="mi mi-enchantment"></i><span id="types-enchantment">0</span>
+					<i class="mi mi-planeswalk"></i><span id="types-planeswalker">0</span>
+					<i class="mi mi-sorcery"></i><span id="types-sorcery">0</span>
+					<i class="mi mi-instant"></i><span id="types-instant">0</span>
+					<i class="mi mi-multiple"></i><span id="types-tribal">0</span>
+				</span>
+				<span>Σ <span id="total">0</span></span>
+			</div>
+		</section>
+	</main>
+	<template id="template-card">
+		<tr>
+			<td class="count"></td>
+			<td class="manaCost"></td>
+			<td class="name"></td>
+			<td class="type"></td>
+		</tr>
+	</template>
+</body>
+</html>
