@@ -118,14 +118,16 @@
 		});
 
 		$('#curve').textContent = '';
-		new window.Morris.Bar({
-			'element': 'curve',
-			'data': result.curve.map((e, i) => {return {'mana': i, 'value': e};}),
-			'xkey': 'mana',
-			'ykeys': ['value'],
-			'labels': ['#'],
-			'hideHover': 'always'
-		});
+		if (window.show_manacurve) {
+			new window.Morris.Bar({
+				'element': 'curve',
+				'data': result.curve.map((e, i) => {return {'mana': i, 'value': e};}),
+				'xkey': 'mana',
+				'ykeys': ['value'],
+				'labels': ['#'],
+				'hideHover': 'always'
+			});
+		}
 
 		$('#cards').textContent = '';
 		result.list
@@ -151,6 +153,8 @@
 	};
 
 	window.addEventListener('load', function f() {
+		window.show_manacurve = false;
+
 		load_dict()
 			.then(dict => {
 				window.dict = dict;
@@ -161,6 +165,12 @@
 
 		$('#input').addEventListener('keyup', ev => {
 			output(calculate(apply_dict(parse(ev.target.value))));
+		});
+
+		$('#show-curve').addEventListener('click', ev => {
+			window.show_manacurve = !(window.show_manacurve);
+			ev.target.textContent = (window.show_manacurve ? 'Hide' : 'Show') + ' ManaCurve';
+			output(calculate(apply_dict(parse($('#input').value))));
 		});
 
 		window.removeEventListener('load', f);
