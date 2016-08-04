@@ -173,6 +173,17 @@
 			output(calculate(apply_dict(parse($('#input').value))));
 		});
 
+		$('#save').addEventListener('click', ev => {
+			var data = calculate(apply_dict(parse($('#input').value)));
+			var text = data.list
+				.sort((a, b) => a.cmc - b.cmc)
+				.map(c => c.count + ' ' + c.name)
+				.join('\n');
+
+			var blob = new window.Blob([text], {'type': 'text/plain'});
+			ev.target.parentNode.setAttribute('href', window.URL.createObjectURL(blob));
+		});
+
 		window.removeEventListener('load', f);
 	});
 })();
