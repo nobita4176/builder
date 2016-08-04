@@ -88,7 +88,7 @@
 			.join('')
 			.replace(/[{}0-9]/g, '');
 		var symbols = {};
-		['u','w','r','g','b'].forEach(c => {
+		['u','w','r','g','b','c'].forEach(c => {
 			symbols[c] = symbols_enum.replace(new RegExp('[^' + c + ']', 'gi'), '').length;
 		});
 
@@ -110,7 +110,7 @@
 	// 各種デッキ情報を出力する
 	var output = function(result) {
 		$('#total').textContent = result.total;
-		['u','w','r','g','b'].forEach(c => {
+		['u','w','r','g','b','c'].forEach(c => {
 			$('#symbols-' + c).textContent = result.symbols[c];
 		});
 		['Artifact', 'Creature', 'Enchantment', 'Instant', 'Land', 'Planeswalker', 'Sorcery', 'Tribal'].forEach(t => {
