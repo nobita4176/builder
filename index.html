@@ -10,7 +10,7 @@
 		body {box-sizing: border-box; font-size: 18pt;}
 		section {height: 100vh;}
 		form {height: 100%;}
-		textarea {height: calc(100% - 1.414rem); width: calc(100% - 1.414rem) !important; margin: .5rem; font-family: monospace;}
+		textarea {height: calc(100% - 1.414rem); width: calc(100% - 1.414rem) !important; margin: .5rem; font-family: monospace; ime-mode: disabled;}
 		#output {font-family: monospace;}
 		#output > * {margin: 1rem auto;}
 		#cards-container td, #cards-container th {font-size: 1.2rem; padding: 0 1em;}
@@ -65,7 +65,7 @@
 					<i class="mi mi-instant"></i><span id="types-instant">0</span>
 					<i class="mi mi-multiple"></i><span id="types-tribal">0</span>
 				</span>
-				<span>Σ <span id="total">0</span></span>
+				<span>Σ<span id="total">0</span></span>
 			</div>
 
 			<div id="curve" style="height: 30%;">
