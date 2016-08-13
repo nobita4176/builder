@@ -1,7 +1,7 @@
 'use strict';
 (function() {
 	var $ = q => window.document.querySelector(q);
-	var $$ = q => Array.from(window.document.querySelectorAll(q));
+	// var $$ = q => Array.from(window.document.querySelectorAll(q));
 	var sum = (a, b) => a + b;
 
 	// JSONを纏めてfetchして辞書作る
@@ -148,7 +148,18 @@
 					});
 				}
 
+				card.querySelector('.name').addEventListener('mouseover', ev => {
+					var annotation = $('#annotation');
+					annotation.style.display = 'block';
+					annotation.style.top = ev.clientY + 'px';
+					annotation.style.left = ev.clientX + 'px';
+					annotation.textContent = c.text;
+				});
+
 				$('#cards').appendChild(card);
+				$('#cards').addEventListener('mouseleave', () => {
+					$('#annotation').style.display = 'none';
+				});
 			});
 	};
 

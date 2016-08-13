@@ -15,6 +15,7 @@
 		#output > * {margin: 1rem auto;}
 		#cards-container td, #cards-container th {font-size: 1.2rem; padding: 0 1em;}
 		#cards .name {font-family: Beleren;}
+		#annotation {position: absolute; width: 30vw; font: 1.1rem / 1.1 serif; white-space: pre-wrap; word-wrap: break-word; border: 1px solid gray; background-color: rgba(224,224,224,.9); letter-spacing: -0.05em; will-change: top, left;}
 	</style>
 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -75,6 +76,10 @@
 			<a href="#" download="deck.txt"><button id="save" class="pure-button">Save</button></a>
 		</section>
 	</main>
+
+	<aside id="annotation">
+	</aside>
+
 	<template id="template-card">
 		<tr>
 			<td class="count"></td>
