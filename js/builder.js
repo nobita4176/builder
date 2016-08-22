@@ -154,6 +154,9 @@
 					annotation.style.top = ev.clientY + 'px';
 					annotation.style.left = ev.clientX + 'px';
 					annotation.textContent = c.text;
+					if ('power' in c) {
+						annotation.textContent += '\n' + c.power + '/' + c.toughness;
+					}
 				});
 
 				$('#cards').appendChild(card);
