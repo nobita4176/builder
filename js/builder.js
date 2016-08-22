@@ -198,6 +198,12 @@
 			ev.target.parentNode.setAttribute('href', window.URL.createObjectURL(blob));
 		});
 
+		window.addEventListener('beforeunload', function(ev) {
+			if ($('#input').value !== '') {
+				ev.preventDefault();
+			}
+		});
+
 		window.removeEventListener('load', f);
 	});
 })();
