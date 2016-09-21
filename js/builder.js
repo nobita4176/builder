@@ -166,6 +166,9 @@
 					if ('power' in c) {
 						annotation.textContent += '\n' + c.power + '/' + c.toughness;
 					}
+					if ('loyality' in c) {
+						annotation.textContent += '\n' + '[' + c.loyality + ']';
+					}
 				});
 
 				$('#cards').appendChild(card);
