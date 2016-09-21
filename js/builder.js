@@ -13,6 +13,7 @@
 			'./dict/ORI.json',
 			'./dict/BFZ.json',
 			'./dict/OGW.json',
+			'./dict/W16.json',
 			'./dict/SOI.json',
 			'./dict/EMN.json'
 		];
@@ -129,9 +130,16 @@
 			});
 		}
 
+		var compare = function(a, b) {
+			var cmc = function(c) {return 'cmc' in c ? c.cmc : -1;};
+
+			if (cmc(a) === cmc(b)) {return a.multiverseid - b.multiverseid;}
+			else {return cmc(a) - cmc(b);}
+		};
+
 		$('#cards').textContent = '';
 		result.list
-			.sort((a, b) => a.cmc - b.cmc)
+			.sort(compare)
 			.forEach(c => {
 				var card = window.document.importNode($('#template-card').content, true);
 
