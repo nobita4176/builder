@@ -15,7 +15,8 @@
 			'./dict/OGW.json',
 			'./dict/W16.json',
 			'./dict/SOI.json',
-			'./dict/EMN.json'
+			'./dict/EMN.json',
+			'./dict/KLD.json'
 		];
 
 		// fetch処理PromiseをArrayに固める
