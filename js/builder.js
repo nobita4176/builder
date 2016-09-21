@@ -159,16 +159,27 @@
 
 				card.querySelector('.name').addEventListener('mouseover', ev => {
 					var annotation = $('#annotation');
+
 					annotation.style.display = 'block';
 					annotation.style.top = ev.clientY + 'px';
 					annotation.style.left = ev.clientX + 'px';
-					annotation.textContent = c.text;
+
+					while (annotation.firstChild) { annotation.removeChild(annotation.firstChild); }
+
+					c.text.split('\n').forEach(function(line) {
+						var e = document.createElement('p');
+						e.textContent = line;
+						annotation.appendChild(e);
+					});
+
+					var stats = document.createElement('p');
+					stats.classList.add('stats');
 					if ('power' in c) {
-						annotation.textContent += '\n' + c.power + '/' + c.toughness;
+						stats.textContent = c.power + '/' + c.toughness;
+					} else if ('loyalty' in c) {
+						stats.textContent = '[' + c.loyalty + ']';
 					}
-					if ('loyality' in c) {
-						annotation.textContent += '\n' + '[' + c.loyality + ']';
-					}
+					annotation.appendChild(stats);
 				});
 
 				$('#cards').appendChild(card);
