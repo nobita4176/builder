@@ -140,12 +140,15 @@
 		result.list
 			.sort(compare)
 			.forEach(c => {
+				// テーブル要素を<template>から生成
 				var card = window.document.importNode($('#template-card').content, true);
 
+				// 各カード情報を入れる
 				card.querySelector('.count').textContent = c.count;
 				card.querySelector('.name').textContent = c.name;
 				card.querySelector('.type').textContent = c.type;
 
+				// マナシンボルはアイコン要素で
 				if (c.manaCost) {
 					var manaSymbols = c.manaCost.split(/[{}]+/).filter(e => e.length > 0);
 					manaSymbols.forEach(symbol => {
@@ -155,6 +158,11 @@
 					});
 				}
 
+				// カードリスト(右側の表)に追加
+				$('#cards').appendChild(card);
+
+
+				// ホバー時にアノテーションの表示
 				card.querySelector('.name').addEventListener('mouseover', ev => {
 					var annotation = $('#annotation');
 
@@ -162,14 +170,25 @@
 					annotation.style.top = ev.clientY + 'px';
 					annotation.style.left = ev.clientX + 'px';
 
+					// 内容物をリセット
 					while (annotation.firstChild) { annotation.removeChild(annotation.firstChild); }
 
+					// カードテキストを表示 改行で区切って<p>に入れる
 					c.text.split('\n').forEach(function(line) {
 						var e = document.createElement('p');
 						e.textContent = line;
 						annotation.appendChild(e);
 					});
 
+					// 両面/合体カードの別名の表示
+					if (c.layout === 'double-faced' || c.layout === 'meld') {
+						var another_name = document.createElement('p');
+						another_name.classList.add('stats');
+						another_name.textContent = '> ' + c.names.filter(n => n !== c.name).join(' / ');
+						annotation.appendChild(another_name);
+					}
+
+					// P/T,或いは初期忠誠度の表示
 					var stats = document.createElement('p');
 					stats.classList.add('stats');
 					if ('power' in c) {
@@ -180,7 +199,7 @@
 					annotation.appendChild(stats);
 				});
 
-				$('#cards').appendChild(card);
+				// ホバー終了でアノテーションも消す(中身は残ってる)
 				$('#cards').addEventListener('mouseleave', () => {
 					$('#annotation').style.display = 'none';
 				});
