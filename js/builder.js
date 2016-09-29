@@ -189,6 +189,67 @@
 			});
 	};
 
+	// 入力からカードをインクリメンタルサーチ
+	var find_card = function(input) {
+		if (window.dict === void(0)) {throw new Error('window.dictが存在しません');}
+		if (input.length === 0) {return [];}
+
+		var card_names = Array.from(window.dict.keys()).sort(); // 辞書順ソート
+		var matches = card_names.filter(c => (new RegExp(input)).test(c));
+
+		return matches;
+	};
+
+	// カーソル行の文字列を取得
+	var pick_cursor_line = function(elem) {
+		var before_cursor = elem.value.substr(0, elem.selectionStart).split('\n').pop();
+		var after_cursor = elem.value.substr(elem.selectionStart, elem.value.length).split('\n').shift();
+		return before_cursor + after_cursor;
+	};
+
+	// カーソル行の入力途中な文字列からカードを提案
+	var suggest = function(elem) {
+		var target = $('#suggest');
+		var reset = function() {target.style.display = 'none';};
+
+		var line = pick_cursor_line(elem).replace(/^\d+\s/, '');
+		var matches = find_card(line);
+		if (matches.length === 0 || matches[0] === line) {reset(); return;}
+
+		while (target.firstChild) { target.removeChild(target.firstChild); }
+		target.style.display = 'block';
+
+		var list = window.document.createElement('ul');
+		matches.forEach(c => {
+			var li = window.document.createElement('li');
+			li.textContent = c;
+			list.appendChild(li);
+		});
+		target.appendChild(list);
+	};
+
+	// 提案されたカードの第一候補を入力欄に移す
+	var complete = function(elem) {
+		var line = pick_cursor_line(elem);
+		if (! /^\d+\s/.test(line)) {return;}
+
+		var count = line.match(/^\d+\s/)[0];
+		var matches = find_card(line.replace(/^\d+\s/, ''));
+
+		if (matches.length >= 1) {
+			var before_line = elem.value.substr(0, elem.selectionStart).split('\n');
+			before_line.pop();
+			var after_line = elem.value.substr(elem.selectionStart, elem.value.length).split('\n');
+			after_line.shift();
+
+			elem.value = Array.concat(
+				before_line,
+				[count + matches[0]],
+				after_line
+			).join('\n');
+		}
+	};
+
 	window.addEventListener('load', function f() {
 		window.show_manacurve = false;
 
@@ -202,6 +263,14 @@
 
 		$('#input').addEventListener('keyup', ev => {
 			output(calculate(apply_dict(parse(ev.target.value))));
+
+			suggest(ev.target);
+		});
+		$('#input').addEventListener('keydown', ev => {
+			if (ev.keyCode === 9) { // <Tab>
+				ev.preventDefault();
+				complete(ev.target);
+			}
 		});
 
 		$('#show-curve').addEventListener('click', ev => {
