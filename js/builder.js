@@ -193,7 +193,7 @@
 		if (input.length === 0) {return [];}
 
 		var card_names = Array.from(window.dict.keys()).sort(); // 辞書順ソート
-		var matches = card_names.filter(c => (new RegExp(input)).test(c));
+		var matches = card_names.filter(c => c.includes(input));
 
 		return matches;
 	};
@@ -218,23 +218,24 @@
 		target.style.display = 'block';
 
 		var list = window.document.createElement('ul');
-		matches.forEach(c => {
+		matches.forEach((c, i) => {
 			var li = window.document.createElement('li');
 			li.textContent = c;
+			li.dataset.index = i;
 			list.appendChild(li);
 		});
 		target.appendChild(list);
 	};
 
 	// 提案されたカードの第一候補を入力欄に移す
-	var complete = function(elem) {
+	var complete = function(elem, result = 0) {
 		var line = pick_cursor_line(elem);
 		if (! /^\d+\s/.test(line)) {return;}
 
 		var count = line.match(/^\d+\s/)[0];
 		var matches = find_card(line.replace(/^\d+\s/, ''));
 
-		if (matches.length >= 1) {
+		if (matches.length > result) {
 			var before_line = elem.value.substr(0, elem.selectionStart).split('\n');
 			before_line.pop();
 			var after_line = elem.value.substr(elem.selectionStart, elem.value.length).split('\n');
@@ -242,7 +243,7 @@
 
 			elem.value = Array.concat(
 				before_line,
-				[count + matches[0]],
+				[count + matches[result]],
 				after_line
 			).join('\n');
 		}
@@ -267,8 +268,17 @@
 		$('#input').addEventListener('keydown', ev => {
 			if (ev.keyCode === 9) { // <Tab>
 				ev.preventDefault();
+
 				complete(ev.target);
+				output(calculate(apply_dict(parse($('#input').value))));
 			}
+		});
+		$('#suggest').addEventListener('click', ev => {
+			var origin = ev.originalTarget;
+			if (origin.tagName !== 'LI') {return;}
+
+			complete($('#input'), origin.dataset.index);
+			output(calculate(apply_dict(parse($('#input').value))));
 		});
 
 		$('#show-curve').addEventListener('click', ev => {
