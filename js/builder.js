@@ -9,8 +9,6 @@
 	var load_dict = function() {
 		const files = [
 			// from https://mtgjson.com/
-			'./dict/DTK.json',
-			'./dict/ORI.json',
 			'./dict/BFZ.json',
 			'./dict/OGW.json',
 			'./dict/W16.json',
