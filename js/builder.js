@@ -158,10 +158,6 @@
 					});
 				}
 
-				// カードリスト(右側の表)に追加
-				$('#cards').appendChild(card);
-
-
 				// ホバー時にアノテーションの表示
 				card.querySelector('.name').addEventListener('mouseover', ev => {
 					var annotation = $('#annotation');
@@ -198,6 +194,9 @@
 					}
 					annotation.appendChild(stats);
 				});
+
+				// カードリスト(右側の表)に追加
+				$('#cards').appendChild(card);
 
 				// ホバー終了でアノテーションも消す(中身は残ってる)
 				$('#cards').addEventListener('mouseleave', () => {
